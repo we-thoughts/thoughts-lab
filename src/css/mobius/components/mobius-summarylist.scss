@@ -1,0 +1,140 @@
+@import '../variables/mobius-variables.scss';
+/* ==================
+         摘要列表
+ ==================== */
+
+$mobius-summarylist--bgcolor_light: $weui-bgcolor_light;
+
+$mobius-summaryitem--bgcolor: #fff;
+$mobius-summaryitem--color_black: $weui-textcolor_black;
+$mobius-summaryitem--color_semi: $weui-textcolor_semi;
+$mobius-summaryitem--color_light: $weui-textcolor_light;
+$mobius-summaryitem--color_green: $weui-textcolor-successgreen_normal;
+$mobius-summaryitem--color_blue: $weui-textcolor_linkblue_normal;
+$mobius-summaryitem--padding_normal: 16px;
+$mobius-summaryitem--margin_normal: 10px;
+$mobius-summaryitem--margin_compact: 4px;
+
+.mobius-summarylist {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  margin: $mobius-summaryitem--margin_normal 0;
+}
+
+.mobius-summaryitem {
+  position: relative;
+  padding: $mobius-summaryitem--padding_normal;
+  margin-bottom: $mobius-summaryitem--margin_normal;
+  background-color: $mobius-summaryitem--bgcolor;
+
+  .mobius-summaryitem__head,
+  .mobius-summaryitem__body,
+  .mobius-summaryitem__footer {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
+
+  .mobius-summaryitem__body {
+    margin-top: $mobius-summaryitem--padding_normal / 2;
+  }
+
+  .mobius-summaryitem__footer {
+    margin-top: $mobius-summaryitem--padding_normal / 2;
+    font-size: 13px;
+    color: $mobius-summaryitem--color_light;
+    line-height: 1;
+  }
+}
+
+.mobius-summaryitem .mobius-summaryitem {
+  &__title {
+    flex: 1 0 auto;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.4;
+    color: $mobius-summaryitem--color_black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+  &__desc {
+    display: block;
+    flex: 1 0 100%;
+    text-align: justify;
+    line-height: 1.6;
+    font-size: 15px;
+    color: $mobius-summaryitem--color_light;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    &--activated_yes {
+      -webkit-line-clamp: 520;
+      color: $mobius-summaryitem--color_semi;
+      line-height: 2.0;
+    }
+  }
+  &__group {
+    display: flex;
+    flex-flow: row nowrap;
+
+    view {
+      padding-right: $mobius-summaryitem--padding_normal / 2;
+    }
+  }
+  &__timestamp {}
+
+  &__link{
+    color: $mobius-summaryitem--color_blue;
+  }
+
+}
+
+.mobius-summaryitem {
+
+  &::before,
+  &::after {
+    content: " ";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.1);
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+
+  &::before {
+    top: 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+  }
+
+  &::after {
+    bottom: 0;
+    -webkit-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+  }
+}
+
+.mobius-summarylist {
+  &.margintopless {
+    margin-top: 0;
+  }
+  &.marginbottomless {
+    margin-bottom: 0;
+  }
+  &.marginyless {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  &.compact .mobius-summaryitem {
+    margin-bottom: $mobius-summaryitem--margin_compact;
+  }
+}

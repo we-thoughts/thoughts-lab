@@ -1,0 +1,151 @@
+@import '../variables/mobius-variables.scss';
+/* ==================
+         时间轴
+ ==================== */
+
+$mobius-timeline--iconfont-family: "mobius-iconfont";
+
+$mobius-timeline--bgcolor: $weui-bgcolor_light;
+$mobius-timeline--padding-left: 102rpx;
+
+$mobius-timeline--color_black: $weui-textcolor_black;
+$mobius-timeline--color_light: $weui-textcolor_light;
+$mobius-timeline--color_green: $weui-textcolor-successgreen_normal;
+$mobius-timeline--fontsize_vice: 26rpx;
+
+$mobius-timeline__line--width: 2rpx;
+$mobius-timeline__line--position-left: (($mobius-timeline--padding-left - $mobius-timeline__line--width) / 2);
+$mobius-timeline__line--color: $weui-textcolor_light;
+$mobius-timeline__line--bgcolor: $weui-textcolor_light;
+
+$mobius-timeline__segment--color: $mobius-timeline--color_black;
+
+$mobius-timeline__item--padding: $mobius-timeline--padding-left / 4;
+$mobius-timeline__item--bgcolor: #fff;
+
+$mobius-timeline__card--padding: 30rpx;
+$mobius-timeline__card--bgcolor: $mobius-timeline__item--bgcolor;
+$mobius-timeline__card--bdradius: 12rpx;
+
+$mobius-timeline__tag--color: $mobius-timeline__card--bgcolor;
+$mobius-timeline__tag--bgcolor: $mobius-timeline--color_green;
+$mobius-timeline__tag--padding-x: $mobius-timeline__card--bdradius;
+$mobius-timeline__tag--bdradius: $mobius-timeline__card--bdradius;
+
+.mobius-timeline {
+  position: relative;
+  background-color: $mobius-timeline--bgcolor;
+  padding-left: $mobius-timeline--padding-left;
+
+  &::before {
+    content: " ";
+    width: $mobius-timeline__line--width;
+    position: absolute;
+    top: 20rpx;
+    bottom: 0;
+    left: $mobius-timeline__line--position-left;
+    background-color: $mobius-timeline__line--bgcolor;
+  }
+}
+
+.mobius-timeline .mobius-timeline {
+  &__time {
+    display: block;
+    width: $mobius-timeline--padding-left;
+    padding: 20rpx 0;
+    text-align: center;
+    font-size: $mobius-timeline--fontsize_vice;
+    color: $mobius-timeline__line--color;
+  }
+
+  &__segment {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: 20rpx 0;
+    text-align: center;
+    line-height: 1em;
+    color: $mobius-timeline__segment--color;
+
+    .mobius-timeline__text {
+      display: inline-block;
+      text-shadow: 0.1em 0.1em 0em $mobius-timeline--color_green;
+    }
+  }
+
+  &__item {
+    position: relative;
+    display: block;
+    padding: $mobius-timeline__item--padding;
+
+    &::before {
+      font-family: $mobius-timeline--iconfont-family;
+      // content 属性使用 ":not" 定义以使其能够被轻易覆盖
+      display: block;
+      position: absolute;
+      top: $mobius-timeline__item--padding + $mobius-timeline__card--padding;
+      z-index: 9;
+      left: - $mobius-timeline__line--position-left - ($mobius-timeline--fontsize_vice / 2);
+      font-size: $mobius-timeline--fontsize_vice;
+      // color 属性使用 ":not" 定义以使其能够被轻易覆盖
+      background-color: $mobius-timeline--bgcolor;
+    }
+
+    &:not([class *="mobius-color"])::before {
+      color: $mobius-timeline--color_green;
+    }
+
+    &:not([class *="mobius-iconfont"])::before {
+      content: "\e635";
+    }
+  }
+
+  &__card {
+    display: block;
+    padding: 30rpx;
+    border-radius: $mobius-timeline__card--bdradius;
+    line-height: 1.6;
+    box-shadow: 0 0 2rpx 0 $mobius-timeline__line--bgcolor;
+    background-color: $mobius-timeline__card--bgcolor;
+    color: $mobius-timeline--color_black;
+  }
+
+  &__card-top {
+    display: flex;
+    font-size: $mobius-timeline--fontsize_vice;
+    justify-content: space-between;
+    margin-bottom: 20rpx;
+  }
+
+  &__tag {
+    padding: 0 $mobius-timeline__tag--padding-x;
+    border-radius: $mobius-timeline__tag--bdradius;
+    color: $mobius-timeline__tag--color;
+    // background-color 属性使用 ":not" 定义以使其能够被轻易覆盖
+
+    &:not([class *="mobius-bgcolor"]) {
+      background-color: $mobius-timeline__tag--bgcolor;
+    }
+  }
+
+  &__timestamp {
+    color: $mobius-timeline--color_light;
+  }
+
+  &__list {
+    counter-reset: index;
+
+    &-item {
+      text-align: justify;
+    }
+
+    &-item::before {
+      content: counter(index)'. ';
+      counter-increment: index;
+    }
+
+    &-item::after {
+      content: "；"
+    }
+  }
+}

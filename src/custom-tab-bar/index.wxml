@@ -1,0 +1,21 @@
+<!-- miniprogram/custom-tab-bar/index.wxml -->
+<wxs module="customTabBar">
+  function getIconName(selectedPath, item) {
+    var boo = (selectedPath === item.pagePath) && (item.selectediconFontName)
+    return boo ? item.selectediconFontName : item.iconFontName
+  }
+  module.exports = {
+    getIconName: getIconName
+  };
+</wxs>
+<view class="tab-bar">
+  <view wx:for="{{list}}" wx:key="index" class="tab-bar-item" data-path="{{item.pagePath}}" data-index="{{index}}" bind:tap="switchTab">
+    <block wx:if="{{item.iconFontName}}">
+      <!-- <image src="{{selectedPath === item.pagePath ? item.selectedIconPath : item.iconPath}}"></image> -->
+      <view class="{{iconfont_familyname}} {{iconfont_classname_prefix}}{{customTabBar.getIconName(selectedPath, item)}}" style="color: {{selectedPath === item.pagePath ? selectedColor : color}}"></view>
+    </block>
+    <view style="color: {{selectedPath === item.pagePath ? selectedColor : color}}">
+      {{item.text}}
+    </view>
+  </view>
+</view>

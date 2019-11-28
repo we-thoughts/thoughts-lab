@@ -1,0 +1,42 @@
+$weui-bgcolor_grey: #EDEDED;
+$weui-bgcolor_light: #F8F8F8; // tabbar, navigation, subscriptions
+
+/* ==================
+         字 号
+ ==================== */
+
+$weui-fontsize_light: 40pt; // 只能为阿拉伯数字信息，如金额、时间等
+
+$weui-fontsize_medium: 20pt; // 页面大标题，一般用于结果、空状态等信息单一界面
+$weui-fontsize_button: 18pt; // 页面内大按钮字体，与按钮搭配使用
+
+$weui-fontsize_regular: 17pt; // 页面内首要层级信息，基准的，可以是连续的，如列表标题、消息气泡
+$weui-fontsize_vice: 14pt; // 页面内次要描述信息，服务于首要信息并与之关联，如列表摘要
+
+$weui-fontsize_small: 13pt; // 页面辅助信息，需弱化的内容，如链接、小按钮
+$weui-fontsize_intro: 11pt; // 说明文本，如版权信息等不需要用户关注的信息
+
+/* ==================
+        字体配色
+ ==================== */
+
+// 主内容 Black 黑色
+$weui-textcolor_black: #000;
+// 大段的说明内容而且属于主要内容用 Semi 黑
+$weui-textcolor_semi: #353535;
+// 次要内容 Grey 灰色
+$weui-textcolor_grey: #888;
+// 时间戳与表单缺省值 Light 灰色
+$weui-textcolor_light: #b2b2b2;
+// 链接用色 蓝
+$weui-textcolor_linkblue_normal: #576b95;
+$weui-textcolor_linkblue_press: rgba(87,107,149, 0.2);
+$weui-textcolor_linkblue_disable: rgba(87,107,149, 0.1);
+// 完成字样色 绿
+$weui-textcolor-successgreen_normal: #09bb07;
+$weui-textcolor-successgreen_press: rgba(9,187,7, 0.2);
+$weui-textcolor-successgreen_disable: rgba(9,187,7, 0.1);
+// 出错字样色 红
+$weui-textcolor-errorred_normal: #e64340;
+$weui-textcolor-errorred_press: rgba(230, 67, 64, 0.2);
+$weui-textcolor-errorred_disable: rgba(230, 67, 64, 0.1);

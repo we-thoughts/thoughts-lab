@@ -1,0 +1,15 @@
+@import '../variables/mobius-variables.scss';
+/* ==================
+      微信列表标题
+ ==================== */
+
+$mobius-wxlisttitle--padding_normal: 16px;
+$mobius-wxlisttitle--fontcolor: $weui-textcolor_grey;
+$mobius-wxlisttitle--fontsize: 14px;
+
+.mobius-wxlisttitle {
+  margin: 3px 0;
+  padding: 0 $mobius-wxlisttitle--padding_normal;
+  color: $mobius-wxlisttitle--fontcolor;
+  font-size: $mobius-wxlisttitle--fontsize;
+}

@@ -1,0 +1,74 @@
+@import '../variables/mobius-variables.scss';
+/* ==================
+     微信小程序导航栏
+ ==================== */
+
+$mobius-wxnavbar--bgcolor: $weui-bgcolor_light;
+$mobius-wxnavbar--fontsize: 14px;
+
+// 布局
+.mobius-wxnavbar {
+  z-index: 100;
+  width: 100%;
+  // layout
+  display: grid;
+  grid-template-columns: 1fr minmax(120px, 2fr) 1fr;
+  grid-template-rows: 100%;
+  grid-column-gap: 10px;
+  place-content: space-between;
+  place-items: center;
+
+  .mobius-wxnavbar__left {
+    place-self: center start;
+    display: flex;
+  }
+
+  .mobius-wxnavbar__center {
+    place-self: center;
+  }
+
+  .mobius-wxnavbar__right {
+    place-self: center right;
+  }
+}
+
+// 配置
+.mobius-wxnavbar .mobius-wxnavbar {
+  &--position_fixed {
+    position: fixed;
+  }
+}
+
+.mobius-wxnavbar .mobius-wxnavbar {
+  // 返回按钮
+  &__backbtn {
+    font-size: 12px;
+    width: 1em;
+    height: 2em;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='24' viewBox='0 0 12 24'%3E  %3Cpath fill-opacity='.9' fill-rule='evenodd' d='M10 19.438L8.955 20.5l-7.666-7.79a1.02 1.02 0 0 1 0-1.42L8.955 3.5 10 4.563 2.682 12 10 19.438z'/%3E%3C/svg%3E");
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-right: 5px;
+
+    &:active {
+      opacity: .5
+    }
+  }
+  // title
+  &__title {
+    font-size: $mobius-wxnavbar--fontsize;
+  }
+}
+
+
+// 主题
+.mobius-wxnavbar {
+  &--theme_default {
+    background-color: $mobius-wxnavbar--bgcolor;
+  }
+
+  &--theme_plain {
+    background-color: transparent;
+  }
+}

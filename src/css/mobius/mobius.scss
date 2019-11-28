@@ -1,0 +1,44 @@
+// 变量
+@import './variables/mobius-variables.scss';
+// 元素
+@import "./elements/mobius-animations.scss";
+@import "./elements/mobius-iconfont.scss";
+@import "./elements/mobius-color.scss";
+@import "./elements/mobius-wxlisttitle.scss";
+// 组件
+@import "./components/mobius-timeline.scss";
+@import "./components/mobius-scrolllist.scss";
+@import "./components/mobius-loadmore.scss";
+@import "./components/mobius-summarylist.scss";
+@import "./components/mobius-wxnavbar.scss";
+@import "./components/mobius-wxcapsule.scss";
+@import "./components/mobius-tagbar.scss";
+// 布局
+
+
+page {
+  --page-bgcolor-grey: #EDEDED; // $weui-bgcolor_grey
+  --page-bgcolor-light: #F8F8F8; // $weui-bgcolor_light
+}
+
+page {
+  background-color: $weui-bgcolor_grey;
+  font-size: 16px;
+  font-family: -apple-system-font, Helvetica Neue, Helvetica, sans-serif;
+}
+
+/* iconfont 多色图标组件控制样式 */
+iconfont {
+  display: inline-flex;
+}
+
+/* 布局样式 */
+// 当前用于 me 页面的 Credit 对齐
+.mobius-layout-flex {
+  display: flex;
+}
+
+/* 用在 tab 页面底部以撑起 tabbar 覆盖的位置 */
+.mobius-tabbar-height {
+  height: 48px;
+}

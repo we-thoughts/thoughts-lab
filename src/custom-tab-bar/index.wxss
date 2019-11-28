@@ -1,0 +1,53 @@
+:host {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+}
+
+.tab-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #F8F8F8;
+  display: flex;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tab-bar::before {
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200%;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scale(0.5);
+  transform: scale(0.5);
+  border-top: 1px solid rgba(0,0,0,.1);
+  /* 下面这样也可 */
+  /* height: 1rpx;
+  background-color: rgba(0,0,0,.1); */
+}
+
+.tab-bar-item {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.tab-bar-item view.mobius-iconfont {
+  width: 27px;
+  height: 27px;
+  font-size: 27px;
+}
+
+.tab-bar-item view {
+  font-size: 10px;
+}

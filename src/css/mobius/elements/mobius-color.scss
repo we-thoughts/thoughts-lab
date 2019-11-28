@@ -1,0 +1,21 @@
+@import '../variables/mobius-variables.scss';
+
+/* ==================
+      Mobius 配色
+ ==================== */
+
+.mobius-color__success {
+  color: $weui-textcolor-successgreen_normal;
+}
+
+.mobius-color__error {
+  color: $weui-textcolor-errorred_normal;
+}
+
+.mobius-bgcolor__success {
+  background-color: $weui-textcolor-successgreen_normal;
+}
+
+.mobius-bgcolor__error {
+  background-color: $weui-textcolor-errorred_normal;
+}

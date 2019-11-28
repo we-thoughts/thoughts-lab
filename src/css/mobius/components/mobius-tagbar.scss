@@ -1,0 +1,38 @@
+@import '../variables/mobius-variables.scss';
+/* ==================
+         标签栏
+ ==================== */
+
+$mobius-tagbar__tag--fontsize: 14px;
+$mobius-tagbar__tag--color: $weui-textcolor_grey;
+$mobius-tagbar__tag--color_selected: $weui-textcolor-successgreen_normal;
+
+$mobius-tagbar--bgcolor: $weui-bgcolor_light;
+$mobius-tagbar--bgcolor_selected: $weui-textcolor-successgreen_disable;
+
+.mobius-tagbar {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: scroll;
+  padding: 6px 10px;
+  background-color: $mobius-tagbar--bgcolor;
+  transition: all .6s ease 0s;
+
+  .mobius-tagbar__tag {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: $mobius-tagbar__tag--color;
+    font-size: $mobius-tagbar__tag--fontsize;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .mobius-tagbar__tag--selected_yes {
+    background-color: $mobius-tagbar--bgcolor_selected;
+    color: $mobius-tagbar__tag--color_selected;
+  }
+}

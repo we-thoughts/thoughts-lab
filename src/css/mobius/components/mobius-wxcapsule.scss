@@ -1,0 +1,134 @@
+@import '../variables/mobius-variables.scss';
+/* ==================
+    微信小程序导航胶囊
+ ==================== */
+
+// 胶囊容器
+.mobius-wxcapsule {
+  position: relative;
+  /* 大小 */
+  height: 32px;
+  /* 布局 */
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+  /* 文本 */
+  text-align: center;
+  /* 装饰 */
+  border-radius: 16px;
+
+  &::after {
+    content: " ";
+    /* 定位 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    z-index: 1;
+    /* 大小 */
+    width: 200%;
+    height: 200%;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    box-sizing: border-box;
+    /* 由于采用了缩放，故元素的各装饰大小的原尺寸都需要 × 2 */
+    border-radius: 32px;
+  }
+}
+
+// 胶囊按钮
+.mobius-wxcapsule .mobius-wxcapsule__btn {
+  position: relative;
+  /* 定位 */
+  z-index: 2;
+  /* 大小 */
+  /* width 基本上每一个按钮的宽度跟父级的高度一致 */
+  /* width 定义在内联样式中，关联了模板变量 */
+  /* iphone 88px */
+  /* Android 96px */
+  height: 100%;
+  /* 布局 */
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+
+  &:first-child {
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+  }
+
+  &:last-child {
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+
+  &::after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    z-index: 1;
+    /* 大小 */
+    /* 由于采用了缩放，故元素的各装饰大小的原尺寸都需要 × 2 */
+    width: 1px;
+    height: 40px;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5) translateY(-50%);
+    box-sizing: border-box;
+    /* 由于采用了缩放，故元素的各装饰大小的原尺寸都需要 × 2 */
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  &:last-child::after {
+    content: none;
+  }
+
+  // 同级
+  &.mobius-wxcapsule__btn {
+    &--hover {
+      /* #666 */
+      background-color: rgba(102, 102, 102, 0.65);
+    }
+  }
+  // 后代
+  .mobius-wxcapsule__btn {
+    &--back {
+      height: 20px;
+      width: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M475.591 300.373V175.218c-11.378-52.338-54.613-20.48-54.613-20.48L120.604 411.876c-65.99 45.51-4.55 79.644-4.55 79.644l295.822 254.862c59.164 43.236 63.715-22.755 63.715-22.755V607.573c300.373-93.297 423.253 279.894 423.253 279.894 11.378 20.48 18.205 0 18.205 0C1033.102 327.68 475.59 300.373 475.59 300.373z'/%3E%3C/svg%3E");
+      // background-position: 50% 50%;
+      background-size: cover
+    }
+  }
+}
+
+
+// 其它元素
+.mobius-wxcapsule {
+  .mobius-wxcapsule__image {
+    /* 大概率为固定尺寸，20px 目前最契合，无设备兼容问题 */
+    height: 20px;
+    width: 20px;
+  }
+}
+
+// 主题
+
+.mobius-wxcapsule.mobius-wxcapsule {
+  &--theme_default {
+    /* #f8f8f8 */
+    background-color: rgba(248, 248, 248, 0.7);
+    &::after {
+      /* 装饰 */
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  // TODO: plain
+  &--theme_plain {}
+}

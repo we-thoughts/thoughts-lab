@@ -1,0 +1,18 @@
+@import '../variables/mobius-variables.scss';
+/* ==================
+         滚动列表
+ ==================== */
+.mobius-scrolllist {
+  flex: 1 1 auto;
+}
+.mobius-scrolllist__scrollview {
+  // 定位及大小
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  // 布局
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  margin: 0;
+}

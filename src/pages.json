@@ -1,0 +1,84 @@
+{
+    "pages": [
+        {
+            "path": "pages/poster/poster/poster",
+            "text": "列表",
+            "style": {
+                "navigationBarTitleText": "列表",
+                "enablePullDownRefresh": true
+            }
+        },
+        {
+            "path": "pages/poster/myposter/myposter",
+            "text": "我的发布",
+            "style": {
+                "navigationBarTitleText": "我的发布",
+                "usingComponents": {}
+            }
+        },
+        {
+            "path": "pages/poster/publish/publish",
+            "text": "发布",
+            "style": {
+                "navigationBarTitleText": "发布",
+                "usingComponents": {}
+            }
+        },
+        {
+            "path": "pages/system/profile/profile",
+            "text": "个人",
+            "style": {
+                "navigationBarTitleText": "个人"
+            }
+        },
+        {
+            "path": "pages/system/changelog/changelog",
+            "text": "开发日志",
+            "style": {
+                "navigationBarTitleText": "开发日志"
+            }
+        },
+        {
+            "path": "pages/system/verify/verify",
+            "text": "邮箱验证",
+            "style": {
+                "navigationBarTitleText": "邮箱验证"
+            }
+        }
+    ],
+    "globalStyle": {
+        "backgroundTextStyle": "dark",
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#F8F8F8",
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "Walnut",
+        "backgroundColor": "#F8F8F8",
+        "backgroundColorTop": "#F4F5F6",
+        "backgroundColorBottom": "#F4F5F6",
+        "onReachBottomDistance": 50,
+        "pageOrientation": "portrait",
+        "usingComponents": {
+            "iconfont": "/wxcomponents/iconfont/iconfont"
+        }
+    },
+    "tabBar": {
+        "custom": true,
+        "color": "#000",
+        "selectedColor": "#07C160",
+        "borderStyle": "black",
+        "list": [
+            {
+                "pagePath": "pages/poster/poster/poster",
+                "text": "列表"
+            },
+            {
+                "pagePath": "pages/poster/myposter/myposter",
+                "text": "发布"
+            },
+            {
+                "pagePath": "pages/system/profile/profile",
+                "text": "个人"
+            }
+        ]
+    }
+}
