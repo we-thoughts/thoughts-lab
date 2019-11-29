@@ -112,6 +112,11 @@
 </template>
 
 <script>
+import ProfilePresenter from "../../../presenter/public/profile.presenter.js";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/of";
+import "rxjs/add/observable/interval";
+
 // 引入配置文件
 import { AppConfigurations } from "../../../basic";
 // 引入基础模块
@@ -157,9 +162,15 @@ export default Mobius.page({
   async install() {},
 
   async onShow() {
-    this.user_info = await Profile.getUserInfo({ fresh: false });
+    ProfilePresenter.getUserInfo().subscribe(userinfo => {
+      this.user_info = userinfo;
+    });
+    // this.user_info = await Profile.getUserInfo({ fresh: false }); // old
     // await 以避免同时造成两次 ”首次 Credit 请求” 导致的条目冲突问题
-    this.credit_info = await Profile.getCreditInfo({ fresh: false });
+    ProfilePresenter.getCreditInfo().subscribe(creditinfo => {
+      this.credit_info = creditinfo;
+    });
+    // this.credit_info = await Profile.getCreditInfo({ fresh: false }); // old
     this.can_credit_updated = await Profile.canCreditUpdated();
   },
 

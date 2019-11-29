@@ -15,8 +15,6 @@
 
     <!-- body 区域 -->
     <view slot="body">
-      {{str$}}
-      {{interval$}}
       <!-- poster 标签栏 -->
       <tagbar
         :show="tagbar_show"
@@ -54,9 +52,6 @@
 </template>
 
 <script>
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
-import "rxjs/add/observable/interval";
 // 引入配置文件
 import { AppConfigurations } from "../../../basic";
 // 引入基础模块
@@ -116,9 +111,6 @@ export default Mobius.page({
   },
 
   created() {
-    Observable.of("test").subscribe(val => this.str$ = val)
-    // Observable.interval(1000).subscribe(val => (this.interval$ = val));
-    // Observable.interval(1000).subscribe(val => console.info(this.intervaal$));
   },
 
   methods: {
