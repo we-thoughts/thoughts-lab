@@ -1,5 +1,5 @@
 import * as AOPLib from './aop';
-import { custom_tab_bar as CustomTabBar } from '../../modules/system';
+import CustomTabBar from '../../modules/custom-tab-bar';
 
 let AOP = new AOPLib.AOP();
 

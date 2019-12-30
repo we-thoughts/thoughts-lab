@@ -3,7 +3,7 @@ import PublicRepository from "../public.repository";
 class GetCreditInfoUsecase {
   constructor() { }
   execute() {
-    return PublicRepository.getCreditInfo();
+    return PublicRepository.creditinfo$;
   }
 }
 

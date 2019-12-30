@@ -1,0 +1,92 @@
+{
+  "name": "ChangelogTable",
+  "description": "changelog",
+  "row_read_perm": [
+    "user:anonymous"
+  ],
+  "row_write_perm": [],
+  "write_perm": [
+    "user:*"
+  ],
+  "schema": {
+    "fields": [
+      {
+        "name": "id",
+        "type": "id",
+        "description": "id"
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": true,
+          "creatorVisible": false
+        },
+        "name": "version",
+        "type": "string",
+        "constraints": {
+          "required": false
+        },
+        "description": ""
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": false,
+          "creatorVisible": false
+        },
+        "name": "list",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "constraints": {
+          "required": false
+        },
+        "description": ""
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": false,
+          "creatorVisible": false
+        },
+        "name": "flag",
+        "type": "string",
+        "default": "update",
+        "constraints": {
+          "required": false
+        },
+        "description": ""
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": false,
+          "creatorVisible": false
+        },
+        "name": "status",
+        "type": "string",
+        "default": "DOING",
+        "constraints": {
+          "required": false
+        },
+        "description": ""
+      },
+      {
+        "name": "created_by",
+        "type": "integer",
+        "description": "created_by"
+      },
+      {
+        "name": "created_at",
+        "type": "integer",
+        "description": "created_at"
+      },
+      {
+        "name": "updated_at",
+        "type": "integer",
+        "description": "updated_at"
+      }
+    ]
+  }
+}

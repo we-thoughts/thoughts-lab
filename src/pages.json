@@ -25,21 +25,21 @@
             }
         },
         {
-            "path": "pages/system/profile/profile",
+            "path": "pages/public/profile/profile",
             "text": "个人",
             "style": {
                 "navigationBarTitleText": "个人"
             }
         },
         {
-            "path": "pages/system/changelog/changelog",
+            "path": "pages/public/changelog/changelog",
             "text": "开发日志",
             "style": {
                 "navigationBarTitleText": "开发日志"
             }
         },
         {
-            "path": "pages/system/verify/verify",
+            "path": "pages/public/verify/verify",
             "text": "邮箱验证",
             "style": {
                 "navigationBarTitleText": "邮箱验证"
@@ -76,7 +76,7 @@
                 "text": "发布"
             },
             {
-                "pagePath": "pages/system/profile/profile",
+                "pagePath": "pages/public/profile/profile",
                 "text": "个人"
             }
         ]

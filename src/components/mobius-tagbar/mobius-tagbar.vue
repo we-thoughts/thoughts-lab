@@ -47,11 +47,17 @@ export default {
     };
   },
   watch: {
-    selected_tags(tags) {
-      this.allbtn_selected = this.$utils.Array.difference(this.tags, tags).length === 0;
-      this.$emit("tagsChange", {
-        selected_tags: [].concat(this.selected_tags)
-      });
+    selected(tags) {
+      this._initTags();
+    },
+    selected_tags(tags, oldtags) {
+      this.allbtn_selected =
+        this.$utils.Array.difference(this.tags, tags).length === 0;
+      if (tags.length !== oldtags.length) {
+        this.$emit("tagsChange", {
+          selected_tags: [].concat(this.selected_tags)
+        });
+      }
     }
   },
   computed: {
@@ -67,8 +73,6 @@ export default {
   },
   created() {},
   async mounted() {
-    // 初始化 tag
-    this._initTags();
     // 计算布局信息
     await this._calculateSize();
   },

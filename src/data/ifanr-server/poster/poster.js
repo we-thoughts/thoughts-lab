@@ -1,74 +1,83 @@
-import { AppConfigurations } from '../../../basic'
-
-const { TABLE_NAMES, REQUSET_PARAMS } = AppConfigurations.getConfigByPath("services/ifanr-server/poster/poster");
+const OPTION = {
+  poster: {
+    TABLE_NAMES: "PosterTable",
+    REQUSET_PARAMS: {
+      posters_limit: 10,
+      posters_offset: 0,
+      older_posters_limit: 10,
+      default_order_by: ['-created_at'] // 降序
+    }
+  }
+};
 
 class PosterService {
   constructor() { }
 
-  requestPosters() {
+  requestPosters(option = OPTION) {
     return new Promise((resolve, reject) => {
-      new wx.BaaS.TableObject(TABLE_NAMES.poster)
-        .limit(REQUSET_PARAMS['posters_limit'])
-        .offset(REQUSET_PARAMS['posters_offset'])
-        .orderBy(REQUSET_PARAMS['default_order_by'])
+      new wx.BaaS.TableObject(option["TABLE_NAMES"])
+        .limit(option["REQUSET_PARAMS"]["posters_limit"])
+        .offset(option["REQUSET_PARAMS"]["posters_offset"])
+        .orderBy(option["REQUSET_PARAMS"]["default_order_by"])
         .find()
         .then(res => {
-          resolve(res.data.objects)
+          resolve(res)
         }, err => {
           reject(err)
         })
     })
   }
 
-  requestNewPosters(basedate) {
+  requestNewerPosters(basedate, option = OPTION) {
     let query = new wx.BaaS.Query().compare('created_at', '>', basedate)
     return new Promise((resolve, reject) => {
-      new wx.BaaS.TableObject(TABLE_NAMES.poster)
+      new wx.BaaS.TableObject(option["TABLE_NAMES"])
         .setQuery(query)
-        .orderBy(REQUSET_PARAMS['default_order_by'])
+        .orderBy(option["REQUSET_PARAMS"]["default_order_by"])
         .find()
         .then(res => {
-          resolve(res.data.objects)
+          resolve(res)
         }, err => {
           reject(err)
         })
     })
   }
 
-  requestOlderPosters(basedate) {
+  requestOlderPosters(basedate, option = OPTION) {
     let query = new wx.BaaS.Query().compare('created_at', '<', basedate)
     return new Promise((resolve, reject) => {
-      new wx.BaaS.TableObject(TABLE_NAMES.poster)
+      new wx.BaaS.TableObject(option["TABLE_NAMES"])
         .setQuery(query)
-        .limit(REQUSET_PARAMS['older_posters_limit'])
-        .orderBy(REQUSET_PARAMS['default_order_by'])
+        .limit(option["REQUSET_PARAMS"]["older_posters_limit"])
+        .orderBy(option["REQUSET_PARAMS"]["default_order_by"])
         .find()
         .then(res => {
-          resolve(res.data.objects)
+          resolve(res)
         }, err => {
           reject(err)
         })
     })
   }
 
-  requestPostersByUserId(userid) {
+  requestPostersByUserId(userid, option = OPTION) {
     let query = new wx.BaaS.Query().compare('created_by', '=', userid)
     return new Promise((resolve, reject) => {
-      new wx.BaaS.TableObject(TABLE_NAMES.poster)
+      new wx.BaaS.TableObject(option["TABLE_NAMES"])
         .setQuery(query)
-        .orderBy(REQUSET_PARAMS['default_order_by'])
+        .orderBy(option["REQUSET_PARAMS"]["default_order_by"])
         .find()
         .then(res => {
-          resolve(res.data.objects)
+          resolve(res)
         }, err => {
           reject(err)
         })
     })
   }
 
-  async createPoster(poster_data) {
+  createPoster(poster_data, option = OPTION) {
+    console.info(option)
     return new Promise((resolve, reject) => {
-      new wx.BaaS.TableObject(TABLE_NAMES.poster)
+      new wx.BaaS.TableObject(option["TABLE_NAMES"])
         .create()
         .set(poster_data)
         .save()
@@ -80,9 +89,9 @@ class PosterService {
     })
   }
 
-  async deletePosterById(id) {
+  deletePosterById(id, option = OPTION) {
     return new Promise((resolve, reject) => {
-      new wx.BaaS.TableObject(TABLE_NAMES.poster)
+      new wx.BaaS.TableObject(option["TABLE_NAMES"])
         .delete(id).then(res => {
           resolve(res)
         }, err => {

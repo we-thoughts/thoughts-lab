@@ -1,6 +1,3 @@
-import { AppConfigurations } from '../../../basic';
-
-const { TABLE_NAMES } = AppConfigurations.getConfigByPath("services/ifanr-server/common/credit");
 
 class CreditService {
   constructor() { }
@@ -11,11 +8,11 @@ class CreditService {
       let CreditTable = new wx.BaaS.TableObject(TABLE_NAMES.credit)
       CreditTable.setQuery(query).find().then(res => {
         if (res.data.objects.length === 1) {
-          resolve(res.data.objects[0])
+          resolve(res)
         } else if (res.data.objects.length === 0) {
           // 若没有找到目标条目，就先创建一个新的（初始化）条目并返回
-          this._createCreditRecord(openid).then(res => {
-            resolve(res.data)
+          this._createCreditRecord(openid).then(() => {
+            resolve(this.requestCreditInfoByOpenid(openid))
           })
         } else {
           reject(new Error('目标数据条目不唯一！'))

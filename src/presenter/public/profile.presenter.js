@@ -1,16 +1,30 @@
+import { map, tap } from "rxjs/operators";
 
-import GetCreditInfoUsecase from "../../domain/public/usecases/get-creditinfo.usecase";
-import GetUserInfoUsecase from "../../domain/public/usecases/get-userinfo.usecase";
+import BasePresenter from "../base.presenter";
 
-class ProfilePresenter {
-  constructor() {}
+import UserService from "../../services/user.service";
+import PublicService from "../../services/public.service";
 
-  getCreditInfo() {
-    return GetCreditInfoUsecase.execute();
-  }
+class ProfilePresenter extends BasePresenter {
 
-  getUserInfo() {
-    return GetUserInfoUsecase.execute();
+  UserService = UserService.exports;
+  PublicService = PublicService.exports;
+
+  userinfo$ = null;
+  page_config$ = null;
+
+  constructor() {
+    super()
+
+    let { userinfo$, getUserinfo } = this.UserService;
+    let { app_config$ } = this.PublicService;
+
+    this.userinfo$ = userinfo$;
+
+    this.page_config$ = app_config$.pipe(
+      map(app_config => app_config.pages["profile"]),
+      tap(() => getUserinfo())
+    );
   }
 
 }

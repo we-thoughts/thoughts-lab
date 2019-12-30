@@ -1,0 +1,127 @@
+{
+  "_id": "dMRPJKJQRk0dhEdHYTgyIKPDJIfNysiSFVMTvdwCtNAPh70C",
+  "version": "20191218001",
+  "env": "server",
+  "apps": {
+    "system": {
+      "data": {
+        "credit": {
+          "TABLE_NAMES": "CreditTable"
+        }
+      },
+      "repos": {},
+      "pages": {}
+    },
+    "public": {
+      "data": {
+        "changelog": {
+          "TABLE_NAMES": "ChangelogTable",
+          "REQUSET_PARAMS": {
+            "posters_limit": 1000,
+            "posters_offset": 0,
+            "default_order_by": [
+              "-created_at"
+            ]
+          }
+        }
+      },
+      "repos": {},
+      "pages": {
+        "changelog": {
+          "pagetitle": "开发日志"
+        },
+        "profile": {
+          "pagetitle": "个人",
+          "ICON_PATHS": {
+            "email": "修改：云存储中的 ICON 路径",
+            "poster_credit": "修改：云存储中的 ICON 路径",
+            "changelog": "修改：云存储中的 ICON 路径",
+            "todo": "修改：云存储中的 ICON 路径",
+            "chat_service": "修改：云存储中的 ICON 路径"
+          },
+          "TUCAO": {
+            "app_id": "修改：吐槽吧 appid",
+            "product_id": "修改：吐槽吧 product_id"
+          }
+        },
+        "verify": {
+          "pagetitle": "邮箱验证",
+          "EMAIL_VERIFY": {
+            "email_input_placeholder": "修改：请输入 CUC 邮箱",
+            "email_suffix": "修改：cuc.edu.cn",
+            "email_suffix_invalid_toast_title": "修改：必须是中国传媒大学的邮箱噢！"
+          }
+        }
+      }
+    },
+    "poster": {
+      "data": {
+        "poster": {
+          "TABLE_NAMES": "PosterTable",
+          "PUBLISH_OPT": {
+            "picture_category_name": "poster_picture"
+          },
+          "REQUSET_PARAMS": {
+            "posters_limit": 10,
+            "posters_offset": 0,
+            "older_posters_limit": 10,
+            "default_order_by": [
+              "-created_at"
+            ]
+          }
+        }
+      },
+      "repos": {
+        "POSTER_TAGS": [
+          "交易",
+          "租借",
+          "咨询",
+          "失物",
+          "拼团",
+          "社群",
+          "招聘",
+          "其它"
+        ],
+        "INITIAL_POSTER_TAGS": [
+          "交易",
+          "租借",
+          "咨询",
+          "失物",
+          "拼团",
+          "社群",
+          "招聘",
+          "其它"
+        ],
+        "PUBLISH_TAGS": [
+          "交易",
+          "租借",
+          "咨询",
+          "失物",
+          "拼团",
+          "社群",
+          "招聘",
+          "其它"
+        ],
+        "PUBLISH_PERMISSIONS": {
+          "num_of_publish": 10,
+          "num_of_pics": 9
+        }
+      },
+      "pages": {
+        "poster": {
+          "pagetitle": "列表",
+          "capsule_main_icon": "修改：云存储中的 ICON 路径"
+        },
+        "myposter": {
+          "pagetitle": "我的发布",
+          "capsule_vice_icon": "修改：云存储中的 ICON 路径"
+        },
+        "publish": {
+          "pagetitle": "发布"
+        }
+      }
+    }
+  },
+  "tag": "latest",
+  "expire": 43200
+}

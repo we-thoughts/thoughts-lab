@@ -35,20 +35,9 @@
 </template>
 
 <script>
-// 引入配置文件
-import { AppConfigurations } from "../../../basic";
-// 引入基础模块
-import { createNamespacedHelpers } from "vuex";
-import * as Mobius from "../../../libs/mobius";
-// 引入功能模块
-import * as PosterModule from "../../../modules/poster";
+import MyposterPresenter from "../../../presenter/poster/myposter.presenter";
 
-const {
-  mapState: mapSelfState,
-  mapMutations: mapSelfMutations
-} = createNamespacedHelpers("poster/myposter");
-const PAGE_CONFIG = AppConfigurations.getConfigByPath("pages/poster/myposter");
-let { app: PosterApp, myposter: MyPoster } = PosterModule;
+import * as Mobius from "../../../libs/mobius";
 
 export default Mobius.page({
   components: {
@@ -56,80 +45,64 @@ export default Mobius.page({
   },
   data() {
     return {
-      pagetitle: PAGE_CONFIG.pagetitle || "我的发布",
+      pagetitle: "我的发布",
       capsule: {
         vice: {
-          icon: PAGE_CONFIG.capsule_vice_icon
+          icon: "https://cloud-minapp-29437.cloud.ifanrusercontent.com/1iO1YFIMFSA4N9zf.png"
         }
       },
 
       myposters: []
     };
   },
-  computed: {
-    ...mapSelfState(["has_myposter_changed", "myposter_changed_payloads"])
+  computed: {},
+  onLoad() {
+    MyposterPresenter.bindPage(this);
+    MyposterPresenter.subscribe("page_config$", page_config => {
+      let { pagetitle, capsule_vice_icon } = page_config;
+      this.pagetitle = pagetitle;
+      this.capsule.vice.icon = capsule_vice_icon;
+    });
+    MyposterPresenter.subscribe("myposters$", myposters => {
+      this.myposters = myposters;
+    });
+    MyposterPresenter.subscribe("delete_states$", state => {
+      if (state.type === "log" && state.message === "success") {
+        uni.showToast({
+          title: "删除成功",
+          icon: "success",
+          duration: 1000
+        });
+      }
+    });
+    MyposterPresenter.getMyposters();
   },
-  async onLoad() {
-    this._loadMyposters();
+  onShow() {
+    MyposterPresenter.refreshMyposters();
   },
-  async onShow() {
-    this.refreshMyposterList();
+  destroyed() {
+    MyposterPresenter.unsubscribeAll();
   },
   methods: {
-    ...mapSelfMutations(["resetMyposterChange"]),
     __navbarCapsuleViceClick(e) {
       uni.navigateTo({
-        url: `../publish/publish?myposter_length=${this.myposters.length}`
+        url: `../publish/publish`
       });
     },
-    async _loadMyposters() {
-      this.myposters = await MyPoster.getMyPosters({ fresh: false });
-    },
-    async refreshMyposterList() {
-      if (!this.has_myposter_changed) return;
-      let {
-        has_poster_changed,
-        has_new_poster
-      } = await MyPoster.revisePosterChanged(this.myposter_changed_payloads);
-      if (has_poster_changed) {
-        this._loadMyposters();
-      }
-      if (has_new_poster) {
-        this.myposters = await MyPoster.getMyPosters({ fresh: true });
-      }
-      this.resetMyposterChange();
-    },
     // poster 删除流程
-    async deletePoster(e) {
+    deletePoster(e) {
       let { id } = e;
       uni.showModal({
         title: "提示",
         content: "确认删除吗？🧐",
         success: res => {
           if (res.confirm) {
-            MyPoster.deleteMyPosterById(id).then(
-              () => {
-                this.afterDelete({ id: id });
-              },
-              err => {
-                uni.showToast({
-                  title: "😔 删除失败啦",
-                  icon: "none",
-                  duration: 1000
-                });
-                return new Error(err);
-              }
-            );
+            MyposterPresenter.deletePoster(id);
           } else if (res.cancel) {
             return;
           }
         }
       });
-    },
-    afterDelete(data) {
-      let { id } = data;
-      PosterApp.markMyposterChange({ change_type: "delete", id: id });
-      this.refreshMyposterList();
     }
   }
 });

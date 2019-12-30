@@ -61,7 +61,7 @@
                       <image class="weui-uploader__file" :src="pic" mode="aspectFill" />
                     </view>
                     <!-- 图片选择器 -->
-                    <view class="weui-uploader__input-box" v-if="pictures.length < poster_credit">
+                    <view class="weui-uploader__input-box" v-if="pictures.length < num_of_pics">
                       <view class="weui-uploader__input" @click="chooseImage"></view>
                     </view>
                   </view>
@@ -88,25 +88,21 @@
 </template>
 
 <script>
-// 引入配置文件
-import { AppConfigurations } from "../../../basic";
-// 引入基础模块
-import * as Mobius from "../../../libs/mobius";
-// 引入功能模块
-import * as PosterModule from "../../../modules/poster";
+import PublishPresenter from "../../../presenter/poster/publish.presenter";
 
-const PAGE_CONFIG = AppConfigurations.getConfigByPath("pages/poster/publish");
-let { app: PosterApp, publish: Publish } = PosterModule;
+import * as Mobius from "../../../libs/mobius";
 
 export default Mobius.page({
   components: {},
   data() {
     return {
-      pagetitle: PAGE_CONFIG.pagetitle || "发布",
+      pagetitle: "发布",
 
       tags: [],
-      poster_credit: 0,
-      myposter_length: 0,
+      num_of_publish: 0,
+      num_of_pics: 0,
+
+      num_of_myposters: 0,
 
       tagIndex: 0,
       content: "",
@@ -116,12 +112,32 @@ export default Mobius.page({
       isLoading: false
     };
   },
-  async onLoad(query) {
-    this.myposter_length = query["myposter_length"];
-    this.poster_credit = await Publish.getPosterCredit({ fresh: true });
-    this.tags = ["选分类"].concat(Publish.getPublishTags());
+  onLoad() {
+    PublishPresenter.bindPage(this);
+    PublishPresenter.subscribe("publish_tags$", tags => {
+      this.tags = ["选分类", ...tags];
+    });
+    PublishPresenter.subscribe("app_config$", config => {
+      this.num_of_publish = config.repos["PUBLISH_PERMISSIONS"].num_of_publish;
+      this.num_of_pics = config.repos["PUBLISH_PERMISSIONS"].num_of_pics;
+    });
+    PublishPresenter.subscribe("page_config$", page_config => {
+      this.pagetitle = page_config.pagetitle;
+    });
+    PublishPresenter.subscribe("num_of_myposters$", num_of_myposters => {
+      this.num_of_myposters = num_of_myposters;
+    });
+    PublishPresenter.subscribe("publish_states$", state => {
+      console.info("Publish 页面收到 publish state: ", state);
+      this.handlePublishState(state);
+    });
   },
-  async onShow() {},
+  onShow() {
+    PublishPresenter.refreshMyposters();
+  },
+  destroyed() {
+    PublishPresenter.unsubscribeAll()
+  },
 
   methods: {
     clearContent() {
@@ -134,9 +150,9 @@ export default Mobius.page({
     __tagChange(e) {
       this.tagIndex = e.detail.value;
     },
-    async chooseImage(e) {
+    chooseImage(e) {
       uni.chooseImage({
-        count: this.poster_credit - this.pictures.length,
+        count: this.num_of_pics - this.pictures.length,
         sizeType: ["original", "compressed"],
         sourceType: ["album", "camera"],
         success: res => {
@@ -165,30 +181,6 @@ export default Mobius.page({
       });
     },
     // poster 提交流程
-    revisePosterCreditCheckRes(credit_check_res) {
-      let {
-        poster_credit,
-        no_poster_credit,
-        lack_poster_credit
-      } = credit_check_res;
-      if (no_poster_credit) {
-        uni.showToast({
-          title: `请先进行校园邮箱认证~`,
-          icon: "none",
-          duration: 1000
-        });
-        return false;
-      }
-      if (lack_poster_credit) {
-        uni.showToast({
-          title: `您最多可以同时发布 ${poster_credit} 条内容~`,
-          icon: "none",
-          duration: 1000
-        });
-        return false;
-      }
-      return true;
-    },
     revisePublishPosterCheckRes(poster_check_res) {
       let { tag, title, content, pictures } = poster_check_res;
       if (!tag) {
@@ -220,7 +212,23 @@ export default Mobius.page({
       }
       return true;
     },
-    async submit(e) {
+    checkPublishPoster(poster_info) {
+      let { tag, title, content, pictures } = poster_info;
+      let res = {};
+      // INFO: 第一个 tag 是 “选分类”
+      if (!(res["tag"] = this.tags.indexOf(tag) > 0)) {
+        return res;
+      }
+      if (!(res["title"] = title !== "")) {
+        return res;
+      }
+      if (!(res["content"] = content !== "")) {
+        return res;
+      }
+      res["pictures"] = true;
+      return res;
+    },
+    submit(e) {
       this.isLoading = true;
       let tag = this.tags[this.tagIndex];
       let title = e.detail.value.title;
@@ -228,38 +236,54 @@ export default Mobius.page({
       let pictures = [].concat(this.pictures);
 
       if (
-        // 检查内容是否合格
+        // 关键内容不准为空
         !this.revisePublishPosterCheckRes(
-          Publish.checkPublishPoster({ tag, title, content, pictures })
-        ) ||
-        // 检查发布额度
-        !this.revisePosterCreditCheckRes(
-          await Publish.checkPosterCredit(this.myposter_length)
+          this.checkPublishPoster({ tag, title, content, pictures })
         )
       ) {
         this.isLoading = false;
         return;
       }
 
-      Publish.publishPoster({ tag, title, content, pictures }).then(
-        res => {
-          uni.showToast({
-            title: "🎈 发布成功啦 ~",
-            icon: "success",
-            duration: 1000
-          });
-          this.afterSubmit();
-        },
-        err => {
-          return new Error(err);
-        }
-      );
+      PublishPresenter.publishPoster({
+        tag,
+        title,
+        content,
+        pictures
+      });
     },
-    afterSubmit() {
-      this.isLoading = false;
-      this.clearContent();
-      PosterApp.markMyposterChange({ change_type: "add" });
-      uni.navigateBack();
+    handlePublishState(state) {
+      if (state.type === "log" && state.message === "success") {
+        uni.showToast({
+          title: "🎈 发布成功啦 ~",
+          icon: "success",
+          duration: 1000
+        });
+        this.clearContent();
+        this.isLoading = false;
+        uni.navigateBack();
+      }
+      if (state.type === "error") {
+        switch (state.message) {
+          case "not_verified":
+            uni.showToast({
+              title: `请先进行校园邮箱认证~`,
+              icon: "none",
+              duration: 1000
+            });
+            break;
+          case "myposters_num_exceeded":
+            uni.showToast({
+              title: `您最多可以同时发布 ${this.num_of_publish} 条内容~`,
+              icon: "none",
+              duration: 1000
+            });
+            break;
+          default:
+            break;
+        }
+        this.isLoading = false;
+      }
     }
   }
 });

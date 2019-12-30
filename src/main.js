@@ -1,8 +1,6 @@
 import Vue from 'vue';
-import { Observable } from 'rxjs/Observable';
 import App from './App';
 
-import store from './store/index';
 import utils from './common/utils';
 
 // 引入组件
@@ -25,13 +23,11 @@ Vue.component("timeline-item", timelineItem);
 
 Vue.config.productionTip = false
 
-Vue.prototype.$store = store
 Vue.prototype.$utils = utils
 
 App.mpType = 'app'
 
 const app = new Vue({
-	store,
 	...App
 })
 app.$mount()

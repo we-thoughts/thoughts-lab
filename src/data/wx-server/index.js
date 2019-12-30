@@ -1,9 +1,3 @@
-// 小程序云能力初始化
-wx.cloud.init({
-  env: "development-d7xlq",
-  traceUser: true
-});
-
 let Services = {
   fetchConfig() {
     return new Promise((resolve, reject) => {
@@ -12,7 +6,7 @@ let Services = {
         tag: "latest"
       }).get({
         success: (res) => {
-          resolve(res.data[0])
+          resolve(res)
         },
         fail: (res) => {
           reject(res)

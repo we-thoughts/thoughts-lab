@@ -3,7 +3,7 @@ import PublicRepository from "../public.repository";
 class GetUserInfoUsecase {
   constructor() { }
   execute() {
-    return PublicRepository.getUserInfo();
+    return PublicRepository.userinfo$;
   }
 }
 

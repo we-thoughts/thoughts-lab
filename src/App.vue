@@ -1,32 +1,29 @@
 <script>
-// 必须的库
-require("./libs/sdk-wechat.3.1.0");
+require("./libs/sdk-wechat.3.5.0");
 
-import { AppConfigurations } from "./basic";
+import Enviornment from "./basic/env";
 
-import GlobalStorage from "./data/storage";
-import * as CommonModule from "./modules/common";
-import * as SystemModule from "./modules/system";
-
-let { user: CommonUser } = CommonModule;
-let { login: SystemLogin, credit: SystemCredit } = SystemModule;
+import LoginUsecase from "./domain/system/usecases/login.usecase";
 
 export default {
   globalData: {
-    appname: "Thoughts Daily",
+    appname: "Thoughts Lab",
     system_info: null
   },
   onLaunch: async function() {
     console.log("App Launch");
+
+    // 小程序云能力初始化
+    wx.cloud.init(Enviornment["server"]["wx-server"]);
+
     // ifanr SDK verifies the client
     wx.BaaS.init(
-      AppConfigurations.getConfigByPath(
-        "services/ifanr-server/developer_id/client_id"
-      )
+      Enviornment["server"]["ifanr-server"]["developer_id"]["client_id"],
+      Enviornment["server"]["ifanr-server"]["options"]
     );
 
     // log in & set openid in GlobalStorage
-    await SystemLogin.login();
+    LoginUsecase.execute().subscribe();
 
     // ...
   },

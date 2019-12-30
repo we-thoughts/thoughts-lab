@@ -1,10 +1,14 @@
 export default {
   openid: '',
-  user_info: {},
-  credit_info: {},
+  userinfo: {},
+  creditinfo: {},
+
   posters: [],
   myposters: [],
   changelogs: [],
+
+  config: {},
+
   // TODO: remove
   motto: 'Hello World',
   reverseMotto() {

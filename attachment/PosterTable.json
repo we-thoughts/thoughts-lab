@@ -1,0 +1,92 @@
+{
+  "name": "PosterTable",
+  "description": "观点",
+  "row_read_perm": [
+    "user:anonymous"
+  ],
+  "row_write_perm": [
+    "user:{created_by}"
+  ],
+  "write_perm": [
+    "user:*"
+  ],
+  "schema": {
+    "fields": [
+      {
+        "name": "id",
+        "type": "id",
+        "description": "id"
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": false,
+          "creatorVisible": false
+        },
+        "name": "content",
+        "type": "string",
+        "constraints": {
+          "required": false
+        },
+        "description": "发布的内容"
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": false,
+          "creatorVisible": false
+        },
+        "name": "pictures",
+        "type": "array",
+        "items": {
+          "type": "object"
+        },
+        "constraints": {
+          "required": false
+        },
+        "description": "poster 配图"
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": false,
+          "creatorVisible": false
+        },
+        "name": "title",
+        "type": "string",
+        "constraints": {
+          "required": false
+        },
+        "description": "简短的标题"
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": false,
+          "creatorVisible": false
+        },
+        "name": "tag",
+        "type": "string",
+        "constraints": {
+          "required": false
+        },
+        "description": "标签"
+      },
+      {
+        "name": "created_by",
+        "type": "integer",
+        "description": "created_by"
+      },
+      {
+        "name": "created_at",
+        "type": "integer",
+        "description": "created_at"
+      },
+      {
+        "name": "updated_at",
+        "type": "integer",
+        "description": "updated_at"
+      }
+    ]
+  }
+}
