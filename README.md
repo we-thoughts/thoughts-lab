@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#" target="_blank" rel="noopener noreferrer"><img width="150" src="
-https://thoughtsdaily.cn/thoughts-daily.jpg" alt="Thoughts Daily Logo"></a>
+./public/assets/thoughts-daily.jpg" alt="Thoughts Daily Logo"></a>
 </p>
 
 <h1 align="center">Thoughts Lab</h1>
@@ -24,19 +24,19 @@ Thoughts Lab 开发的应用都将以校园和日常生活为背景，旨在为�
     <tr>
       <td align="center" valign="middle">
         <a href="#Instance" target="_blank">
-          <img width="auto" src="https://thoughtsdaily.cn/thoughts-lab-minaqr-8.jpg">
+          <img width="auto" src="./public/assets/thoughts-lab-minaqr-8.jpg">
         </a>
         <p style="width: 100%; text-align: center;">中国传媒大学</p>
       </td>
       <td align="center" valign="middle">
         <a href="#Instance" target="_blank">
-          <img width="auto" src="https://thoughtsdaily.cn/thoughts-lab-minaqr-8.jpg" >
+          <img width="auto" src="./public/assets/thoughts-lab-minaqr-8.jpg" >
         </a>
         <p style="width: 100%; text-align: center;">……</p>
       </td>
       <td align="center" valign="middle">
         <a href="#Instance" target="_blank">
-          <img width="auto" src="https://thoughtsdaily.cn/thoughts-lab-minaqr-8.jpg">
+          <img width="auto" src="./public/assets/thoughts-lab-minaqr-8.jpg">
         </a>
         <p style="width: 100%; text-align: center;">……</p>
       </td>
