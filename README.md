@@ -59,11 +59,11 @@ Thoughts Lab 开发的应用都将以校园和日常生活为背景，旨在为�
 
 ## Built With
 
-* [uni-app](https://github.com/dcloudio/uni-app) - The miniprogram framework used 🤞
+- [uni-app](https://github.com/dcloudio/uni-app) - The miniprogram framework used 🤞
 
 ## Author
 
-* **Cigaret** - *Undergraduate of CUC* - kcigaret@outlook.com
+- **Cigaret** - *Undergraduate of CUC* - kcigaret@outlook.com
 
 ## License
 
