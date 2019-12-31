@@ -136,7 +136,7 @@ export default Mobius.page({
     PublishPresenter.refreshMyposters();
   },
   destroyed() {
-    PublishPresenter.unsubscribeAll()
+    PublishPresenter.unsubscribeAll();
   },
 
   methods: {
@@ -245,6 +245,10 @@ export default Mobius.page({
         return;
       }
 
+      wx.showLoading({
+        title: "提交中……",
+        mask: true
+      });
       PublishPresenter.publishPoster({
         tag,
         title,
@@ -253,7 +257,7 @@ export default Mobius.page({
       });
     },
     handlePublishState(state) {
-      if (state.type === "log" && state.message === "success") {
+      if (state.type === "status" && state.message === "success") {
         uni.showToast({
           title: "🎈 发布成功啦 ~",
           icon: "success",
@@ -261,7 +265,9 @@ export default Mobius.page({
         });
         this.clearContent();
         this.isLoading = false;
-        uni.navigateBack();
+        setTimeout(() => {
+          uni.navigateBack();
+        }, 1000);
       }
       if (state.type === "error") {
         switch (state.message) {
@@ -279,10 +285,20 @@ export default Mobius.page({
               duration: 1000
             });
             break;
+          case "risky_content":
+            uni.showToast({
+              title: `检测到您措辞稍有不雅，请重新组织后提交哦~`,
+              icon: "none",
+              duration: 1000
+            });
+            break;
           default:
             break;
         }
         this.isLoading = false;
+        setTimeout(() => {
+          wx.hideLoading()
+        }, 1000);
       }
     }
   }

@@ -24,3 +24,4 @@ yarn-error.log*
 
 # Secret Files
 src/basic/env.js
+src/cloud/wx-cloudfunctions/*/secret.js

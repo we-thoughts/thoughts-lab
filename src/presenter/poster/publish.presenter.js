@@ -1,5 +1,5 @@
-import { Subject } from "rxjs";
-import { map, withLatestFrom, tap } from "rxjs/operators";
+import { Subject, of } from "rxjs";
+import { map, withLatestFrom, exhaustMap, tap, filter } from "rxjs/operators";
 
 import BasePresenter from "../base.presenter";
 
@@ -8,7 +8,8 @@ import PosterService from "../../services/poster.service";
 
 const PUBLISH_ERROR_DICT = {
   "not_verified": "not_verified",
-  "myposters_num_exceeded": "myposters_num_exceeded"
+  "myposters_num_exceeded": "myposters_num_exceeded",
+  "risky_content": "risky_content"
 };
 
 class PublishPresenter extends BasePresenter {
@@ -52,38 +53,46 @@ class PublishPresenter extends BasePresenter {
 
     // 发布 Poster 流程： Check -> Publish
     //                        --> Cancel
-    publish_states$.subscribe(state => this.publish_states$.next({ type: "log", message: state }))
-    let __publishPosterCheckRes = [];
+    publish_states$.subscribe(state => {
+      let { type, message } = state;
+      if (type === "error") {
+        this.publish_states$.next({ type: "error", message: PUBLISH_ERROR_DICT[message] })
+      } else {
+        this.publish_states$.next(state)
+      }
+    })
+
     let _publishPosterCheck$ = this._publishPosterEvt$.pipe(
       withLatestFrom(userinfo$),
-      tap(([, userinfo]) => {
+      exhaustMap(([poster_data, userinfo]) => {
         this.publish_states$.next({ type: "log", message: "Verify the identity ..." })
-        if (!userinfo._email_verified) {
-          __publishPosterCheckRes.push(PUBLISH_ERROR_DICT["not_verified"])
-        }
+        return of(userinfo._email_verified).pipe(
+          tap(check_res => {
+            if (!check_res) {
+              this.publish_states$.next({ type: "error", message: PUBLISH_ERROR_DICT["not_verified"] })
+            }
+          }),
+          filter(check_res => check_res),
+          map(() => [poster_data, userinfo])
+        );
       }),
-      tap(() => {
+      exhaustMap(([poster_data, userinfo]) => {
         this.publish_states$.next({ type: "log", message: "Verify the publish number ..." })
-        if (this._num_of_myposters >= this._num_of_publish) {
-          __publishPosterCheckRes.push(PUBLISH_ERROR_DICT["myposters_num_exceeded"])
-        }
+        return of(this._num_of_publish > this._num_of_myposters).pipe(
+          tap(check_res => {
+            if (!check_res) {
+              this.publish_states$.next({ type: "error", message: PUBLISH_ERROR_DICT["myposters_num_exceeded"] })
+            }
+          }),
+          filter(check_res => check_res),
+          map(() => [poster_data, userinfo])
+        );
       }),
-      // exhaustMap(([poster_data]) => {
-      // TODO: 接入微信的内容审查 API
-      //   this.publish_states$.next("Verify the content ...")
-      //   //
-      // }),
       map(([poster_data]) => poster_data)
     );
     _publishPosterCheck$.subscribe((poster_data) => {
-      if (__publishPosterCheckRes.length !== 0) {
-        this.publish_states$.next({type: "log", message: "Publish request rejected!"})
-        this.publish_states$.next({ type: "error", message: __publishPosterCheckRes[0] })
-      } else {
-        this.publish_states$.next({type: "log", message: "Publish request approved!"})
-        publishPoster(poster_data)
-      }
-      __publishPosterCheckRes = [];
+      this.publish_states$.next({ type: "log", message: "Presenter Publish request approved!" })
+      publishPoster(poster_data)
     })
 
     this.num_of_myposters$ = myposters$.pipe(

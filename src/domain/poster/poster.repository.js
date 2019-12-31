@@ -3,6 +3,7 @@ import { tap, shareReplay, map, switchMap } from 'rxjs/operators';
 
 import GetConfigUsecase from "../system/usecases/get-config.usecase";
 import GetUserinfoUsecase from "../system/usecases/get-userinfo.usecase";
+import CheckMessageSecurityUsecase from "../system/usecases/check-message_security.usecase";
 
 import IfanrServerData from "../../data/ifanr-server";
 import GlobalStorage from "../../data/storage";
@@ -160,6 +161,10 @@ class PosterRepository {
         )
       )
     )
+  }
+
+  checkMessageSecurity({ content }) {
+    return CheckMessageSecurityUsecase.execute({ content });
   }
 }
 

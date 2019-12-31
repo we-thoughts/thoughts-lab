@@ -1,5 +1,5 @@
 import { of, Subject, combineLatest, merge } from "rxjs";
-import { map, share, shareReplay, tap, concatMap, startWith, pairwise, switchMap, exhaustMap, withLatestFrom } from "rxjs/operators";
+import { map, share, shareReplay, tap, concatMap, startWith, pairwise, switchMap, exhaustMap, withLatestFrom, filter } from "rxjs/operators";
 
 import PosterEntity from "../entities/poster.entity";
 import MyposterEntity from "../entities/myposter.entity";
@@ -11,6 +11,7 @@ import GetOlderPostersUsecase from "../domain/poster/usecases/get-older_posters.
 import GetMypostersUsecase from "../domain/poster/usecases/get-myposters.usecase";
 import PublishPosterUsecase from "../domain/poster/usecases/publish-poster.usecase";
 import DeleteMyposterUsecase from "../domain/poster/usecases/delete-myposter.usecase";
+import CheckMessageSecurityUsecase from "../domain/poster/usecases/check-message_security.usecase";
 
 const CACHE_SIZE = 1;
 
@@ -65,18 +66,35 @@ class PosterService {
 
     // 核心业务处理流
     let __poster_publish$ = this.publishPosterEvt$.pipe(
-      tap(() => this.publish_states$.next("start")),
-      tap(() => console.info("111111")),
-      exhaustMap(e =>
+      tap(() => {
+        this.publish_states$.next({ type: "log", message: "Service Publish Poster Started" })
+        this.publish_states$.next({ type: "status", message: "start", code: 0 })
+      }),
+      exhaustMap(poster_data => {
+        this.publish_states$.next({ type: "log", message: "Verify the content ..." })
+        return CheckMessageSecurityUsecase.execute({ content: poster_data["title"] + poster_data["content"] }).pipe(
+          tap(check_res => {
+            if (!check_res) {
+              this.publish_states$.next({ type: "error", message: "risky_content" })
+            }
+          }),
+          filter(check_res => check_res),
+          map(() => poster_data)
+        );
+      }),
+      exhaustMap(poster_data =>
         PublishPosterUsecase.execute(
-          e.poster_data,
+          poster_data,
           {
             ...this._config.data.poster,
             category: this._config.data.poster["PUBLISH_OPT"].picture_category_name
           }
         )
       ),
-      tap(() => this.publish_states$.next("success")),
+      tap(() => {
+        this.publish_states$.next({ type: "log", message: "Service Publish Success!" })
+        this.publish_states$.next({ type: "status", message: "success", code: 1 })
+      }),
       shareReplay(CACHE_SIZE)
     );
 
@@ -216,7 +234,7 @@ class PosterService {
     this.deleteMyposterEvt$.next({ poster_id })
   }
   _publishPoster(poster_data) {
-    this.publishPosterEvt$.next({ poster_data })
+    this.publishPosterEvt$.next(poster_data)
   }
 
 }
