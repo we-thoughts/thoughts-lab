@@ -61,7 +61,7 @@
     "mini-program-iconfont-cli": "^0.5.5",
     "mini-types": "*",
     "miniprogram-api-typings": "^2.9.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "postcss-comment": "^2.0.0",
     "rxjs": "^6.5.3",
     "sass-loader": "^8.0.0",
